@@ -1,6 +1,16 @@
 const { Thought, User } = require('../models');
 
 const thoughtController = {
+    // get all thoughts
+    getAllThought(req, res) {
+        Thought.find({})
+            .then(dbThoughtData => res.json(dbThoughtData))
+            .catch(err => {
+                console.log(err);
+                res.sendStatus(400);
+            });
+    },
+
     // add a thought to user
     addThought({ params, body }, res){
         console.log(body);
@@ -26,7 +36,7 @@ const thoughtController = {
     addReaction({ params, body }, res) {
         Thought.findOneAndUpdate(
             { _id: params.thoughtId },
-            { $push: { reaction: body } },
+            { $push: { reactions: body } },
             { new: true, runValidators: true })
             .then(dbUserData => {
                 if(!dbUserData) {
