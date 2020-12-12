@@ -14,7 +14,8 @@ const userController = {
             .catch(err => {
                 console.log(err);
                 res.sendStatus(400);
-            });
+            }
+        );
     },
 
     // get one user by id
@@ -29,14 +30,16 @@ const userController = {
             .catch(err => {
                 console.log(err);
                 res.sendStatus(400);
-            });
+            }
+        );
     },
 
     // create User
     createUser({ body }, res) {
         User.create(body)
             .then(dbUserData => res.json(dbUserData))
-            .catch(err => res.json(err));
+            .catch(err => res.json(err)
+        );
     },
 
     // update user by id
@@ -49,14 +52,16 @@ const userController = {
                 }
                 res.json(dbUserData);
             })
-            .catch(err => res.status(400).json(err));
+            .catch(err => res.status(400).json(err)
+        );
     },
 
     // delete user
     deleteUser({ params }, res) {
         User.findOneAndDelete({ _id: params.id})
             .then(dbUserData => res.json(dbUserData))
-            .catch(err => res.json(err));
+            .catch(err => res.json(err)
+        );
     },
 
     // add a friend
@@ -67,13 +72,24 @@ const userController = {
             { new: true, runValidators: true })
             .then(dbUserData => {
                 if(!dbUserData) {
-                    res.status(404).json({ message: "No User found with this ID!" });
-                    return;
+                   return res.status(404).json({ message: "No User found with this ID!" });
                 }
-                res.json(dbUserData);
+                // add friend for other user
+                return User.findOneAndUpdate(
+                    { _id: params.friendsId}, 
+                    {$push: { friends: params.id}}, 
+                    { new: true, runValidators: true }
+                )
+                .then(dbFriendData => {
+                    if (!dbFriendData) {
+                      res.status(404).json({ message: 'No User (friend) found with this ID!' });
+                      return;
+                    }
+                    res.json(dbFriendData);
+                });
             })
             .catch(err => res.json(err)
-        )
+        );
     },
 
     // delete a friend
@@ -90,7 +106,7 @@ const userController = {
                 res.json(dbUserData);
             })
             .catch(err => res.json(err)
-        )
+        );
     }
 }
 
