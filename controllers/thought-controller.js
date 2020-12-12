@@ -4,13 +4,23 @@ const thoughtController = {
     // get all thoughts
     getAllThought(req, res) {
         Thought.find({})
+            .select('-__v')
             .then(dbThoughtData => res.json(dbThoughtData))
             .catch(err => {
                 console.log(err);
                 res.sendStatus(400);
             });
     },
-
+    // get one pizza by id
+    getThoughtById({ params }, res) {
+        Thought.findOne({ _id: params.id })
+            .select('-__v')
+            .then(dbThoughtData => res.json(dbThoughtData))
+            .catch(err => {
+                console.log(err);
+                res.sendStatus(400);
+            });
+    },
     // add a thought to user
     addThought({ params, body }, res){
         console.log(body);
@@ -35,15 +45,15 @@ const thoughtController = {
     // add reaction to thought
     addReaction({ params, body }, res) {
         Thought.findOneAndUpdate(
-            { _id: params.thoughtId },
+            { _id: params.id },
             { $push: { reactions: body } },
             { new: true, runValidators: true })
-            .then(dbUserData => {
-                if(!dbUserData) {
+            .then(dbThoughtData => {
+                if(!dbThoughtData) {
                     res.status(404).json({ message: "No User fpimd with this ID!"});
                     return;
                 }
-                res.json(dbUserData);
+                res.json(dbThoughtData);
             })
             .catch(err => res.json(err));
     },
