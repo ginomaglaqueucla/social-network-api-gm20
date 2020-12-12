@@ -1,4 +1,5 @@
 const { Thought, User } = require('../models');
+// const { delete } = require('../routes/api');
 
 const thoughtController = {
     // get all thoughts
@@ -59,14 +60,35 @@ const thoughtController = {
     },
 
     // remove Thought
+    // removeThought({ params }, res) {
+    //     Thought.findOneAndDelete({ _id: params.thoughtId })
+    //         .then(deleteThought => {
+    //             if(!deleteThought) {
+    //                 return res.status(404).json({ message: "No Thought with this ID!"});
+    //             }
+    //             return User.findOneAndUpdate(
+    //                 { _id: params.UserId },
+    //                 { $pull: { thoughts: params.thoughtId } },
+    //                 { new: true}
+    //             );
+    //         })
+    //         .then(dbUserData => {
+    //             if (!dbUserData) {
+    //                 res.status(404).json({ message: 'No User found with this ID!' });
+    //                 return;
+    //               }
+    //               res.json(dbUserData);
+    //         })
+    //         .catch(err => res.json(err));
+    // },
     removeThought({ params }, res) {
-        Thought.findOneAndDelete({ _id: params.thoughtId })
+        Thought.findOneAndDelete({ _id: params.id })
             .then(deleteThought => {
                 if(!deleteThought) {
                     return res.status(404).json({ message: "No Thought with this ID!"});
                 }
                 return User.findOneAndUpdate(
-                    { _id: params.UserId },
+                    { username: deleteThought.username },
                     { $pull: { thoughts: params.thoughtId } },
                     { new: true}
                 );

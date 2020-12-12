@@ -18,7 +18,7 @@ const {
     .route('/:id')
     .get(getThoughtById)
     .put(addReaction)
-    // .delete(removeThought);
+    .delete(removeThought);
 
   // /api/thoughts/<userId>
   router.route('/:userId').post(addThought);
@@ -27,7 +27,7 @@ const {
   router
     .route('/:userId/:thoughtId')
 //     .put(addReaction)
-    .delete(removeThought);
+    // .delete(removeThought);
   
   // /api/thoughts/<userId>/<thoughtId>/<reactionId>
   router.route('/:userId/:thoughtId/:reactionId').delete(removeReaction);
