@@ -1,5 +1,5 @@
 const { Thought, User } = require('../models');
-// const { delete } = require('../routes/api');
+
 
 const thoughtController = {
     // get all thoughts
@@ -51,36 +51,14 @@ const thoughtController = {
             { new: true, runValidators: true })
             .then(dbThoughtData => {
                 if(!dbThoughtData) {
-                    res.status(404).json({ message: "No User fpimd with this ID!"});
+                    res.status(404).json({ message: "No User found with this ID!"});
                     return;
                 }
                 res.json(dbThoughtData);
             })
             .catch(err => res.json(err));
     },
-
-    // remove Thought
-    // removeThought({ params }, res) {
-    //     Thought.findOneAndDelete({ _id: params.thoughtId })
-    //         .then(deleteThought => {
-    //             if(!deleteThought) {
-    //                 return res.status(404).json({ message: "No Thought with this ID!"});
-    //             }
-    //             return User.findOneAndUpdate(
-    //                 { _id: params.UserId },
-    //                 { $pull: { thoughts: params.thoughtId } },
-    //                 { new: true}
-    //             );
-    //         })
-    //         .then(dbUserData => {
-    //             if (!dbUserData) {
-    //                 res.status(404).json({ message: 'No User found with this ID!' });
-    //                 return;
-    //               }
-    //               res.json(dbUserData);
-    //         })
-    //         .catch(err => res.json(err));
-    // },
+    // remove and delete thought
     removeThought({ params }, res) {
         Thought.findOneAndDelete({ _id: params.id })
             .then(deleteThought => {
@@ -106,11 +84,11 @@ const thoughtController = {
     // remove reaction
     removeReaction({ params }, res) {
         Thought.findOneAndUpdate(
-            { _id: params.thoughtId },
-            {$pull: { reactions: { reactionId: params.reactionId } } },
+            { _id: params.id },
+            {$pull: { reactions: {reactionId: params.reactionId } } },
             { new: true }
         )
-            .then(dbUserData => res.json(dbUserData))
+            .then(dbThoughtData => res.json(dbThoughtData))
             .catch(err => res.json(err));
     }
 };
