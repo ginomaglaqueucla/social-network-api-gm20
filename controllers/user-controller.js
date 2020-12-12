@@ -1,5 +1,5 @@
 const { json } = require('body-parser');
-const {User} = require('../models');
+const { User, Thought } = require('../models');
 
 const userController = {
     // get all users
@@ -59,7 +59,21 @@ const userController = {
     // delete user
     deleteUser({ params }, res) {
         User.findOneAndDelete({ _id: params.id})
-            .then(dbUserData => res.json(dbUserData))
+            .then(dbUserData => {
+                if (!dbUserData) {
+                    return res.status(404).json({ message: 'No user with this id!' });
+                  }
+                  return Thought.deleteMany(
+                    { username: dbUserData.username },
+                  );
+            })
+            .then(dbThoughtData => {
+                if(!dbThoughtData) {
+                    res.status(404).json({ message: "No thought found" });
+                    return;
+                }
+                res.json(dbThoughtData);
+            })
             .catch(err => res.json(err)
         );
     },
