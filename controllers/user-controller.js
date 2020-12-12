@@ -63,6 +63,7 @@ const userController = {
                 if (!dbUserData) {
                     return res.status(404).json({ message: 'No user with this id!' });
                   }
+                  // delete associated thoughts
                   return Thought.deleteMany(
                     { username: dbUserData.username },
                   );
