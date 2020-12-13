@@ -35,12 +35,27 @@ const thoughtController = {
             })
             .then(dbUserData => {
                 if(!dbUserData) {
+                    console.log(_id);
                     res.status(404).json({ message: "No user found with this ID!" });
                     return;
                 }
                 res.json(dbUserData);
             })
             .catch(err => res.json(err));
+    },
+
+    // update thought by id
+    updateThought({ params, body }, res) {
+        Thought.findOneAndUpdate({_id: params.id }, body, { new: true, runValidators: true })
+            .then(dbThoughtData => {
+                if(!dbThoughtData) {
+                    res.status(404).json({ message: "No Thought found with this ID!" });
+                    return;
+                }
+                res.json(dbThoughtData);
+            })
+            .catch(err => res.status(400).json(err)
+        );
     },
 
     // add reaction to thought
