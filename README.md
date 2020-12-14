@@ -24,23 +24,23 @@ Clone repository from (https://github.com/ginomaglaqueucla/social-network-api-gm
 http://localhost:3001/api/user/
 - For creating or reading new/current users
 
-http://localhost:3001/api/user/<userId>
+http://localhost:3001/api/user/<\userId>
 - For updating or deleting current users
 
-http://localhost:3001/api/user/<userId1>/friends/<userId2>
+http://localhost:3001/api/user/<\userId1>/friends/<\userId2>
 - For linking two users as "friends"
 - Same can be done for unlinking
 
 http://localhost:3001/api/thoughts/
 - For reading current thoughts
 
-http://localhost:3001/api/thoughts/<thoughtId>
+http://localhost:3001/api/thoughts/<\thoughtId>
 - For updating or deleting current users
 
-http://localhost:3001/api/thoughts/<thoughtId>/reactions
+http://localhost:3001/api/thoughts/<\thoughtId>/reactions
 - For creating reaction to specified thought
 
-http://localhost:3001/api/thoughts/<thoughtId>/reactions/<reactionId>
+http://localhost:3001/api/thoughts/<\thoughtId>/reactions/<\reactionId>
 - For deleting reaction
 
 
@@ -68,9 +68,8 @@ To contribute to this project:
 4. Create Pull Request and add reviewers when ready to merge with main code
 
 ## Test
-![Main](./images/main.png)
-![employee](./images/view-employee.png)
-View tutorial video here: [Employee Tracker Demo](https://drive.google.com/file/d/1rdozH23k3EESVHgkVL-EvtHcpNSrIwTf/view)
+![Main](./social-network-pic.png)
+View tutorial video here: [Social Network REST API Demo](https://drive.google.com/file/d/14VNBwhe5xTn5zFLlc_A0jDkereyU1BCr/view)
 
 ## Questions
 Any questions? Contact at: ginomaglaque@gmail.com
